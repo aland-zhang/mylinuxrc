@@ -1,2 +1,2 @@
 #! /bin/bash
-caicloud proxy
+caicloud proxy --kubeconfig=$1
