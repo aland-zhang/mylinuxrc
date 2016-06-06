@@ -12,3 +12,5 @@ go get github.com/tools/godep
 echo 'export PATH=$PATH:~/caicloud/bin' >> ~/.bashrc
 echo 'export GOPATH=~/caicloud/' >> ~/.bashrc
 sudo apt install npm
+# Oracle JAVA
+sudo apt install openjdk-8-jdk-headless
