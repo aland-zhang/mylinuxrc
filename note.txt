@@ -1,0 +1,1 @@
+kubectl get pods -l "role=cluster-admin-executor" --template '{{range $i, $n := .items}}{{if eq $n.status.phase "Runnstate"}}{{$n.metadata.name}}{{end}}{{end}}'
