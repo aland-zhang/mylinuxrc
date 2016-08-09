@@ -1,0 +1,14 @@
+# This role binding allows "tester" to read pods in the namespace "default"
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1alpha1
+metadata:
+  name: read-pods
+  namespace: default
+subjects:
+  - kind: User # May be "User", "Group" or "ServiceAccount"
+    name: tester
+roleRef:
+  kind: Role
+  namespace: default
+  name: pod-reader
+  apiVersion: rbac.authorization.k8s.io/v1alpha1
