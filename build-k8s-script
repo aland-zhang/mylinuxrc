@@ -1,0 +1,3 @@
+UPLOAD_TO_QINIU=N BUILD_CLOUD_IMAGE=N ./hack/caicloud/build-release.sh 2015-09-10-18-15-31
+docker tag index.caicloud.io/caicloud/caicloud-kubernetes:2015-09-10-18-15-31 index.caicloud.io/caicloud/caicloud-kubernetes:group
+make script-image VERSION=group

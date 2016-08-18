@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: my-app3
+spec:
+  nodeName: i-fg0de7t5
+  containers:
+  - name: container12
+    image: index.caicloud.io/caicloud/ubuntu:14.04
+    command: ["bash", "-c", "i=\"0\"; while true; do echo \"`hostname`_container1: $i \"; date --rfc-3339 ns >> /varlog/container1.log; echo $i >> /varlog/count.log ; sleep 4; i=$[$i+1]; done"]
+    volumeMounts:
+    - name: log-storage
+      mountPath: /varlog
+      policy:
+        logDir: {}
+  volumes:
+  - name: log-storage
+    emptyDir: {}
