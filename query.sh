@@ -17,6 +17,16 @@ curl -XPOST 'elasticsearch-logging.kube-system:9200/logstash-2016.08.17/_search?
   "query": { "match": { "type": "elasticsearch" } }
 }'
 
+curl -XPOST 'localhost:9200/logstash-2016.09.13/_search?pretty' -d '
+{
+  "query": { "match": { "log": "120611_BcGNNoZzgraUtrxjDQRIWkIShEcRfHJWKQgEgzcyCYOVFWpbUbfHJOOsJkmymlaL\n" } }
+}'
+
+curl -XPOST 'localhost:9200/logstash-2016.09.13/_search?pretty' -d '
+{
+  "query": { "match": { "pod_name": "logs5000new" } }
+}'
+
 curl -XPOST 'elasticsearch-logging.kube-system:9200/logstash-2016.08.21/_search?pretty' -d '
 {
   "query": { "match": { "log": "redis" } }
@@ -28,17 +38,49 @@ curl -XPOST 'localhost:9200/logstash-2016.08.17/_search?pretty' -d '
   "query": { "match": { "log": "redis" } }
 }'
 
-curl -XPOST 'localhost:9200/logstash-2016.08.20/_search?pretty' -d '
+curl -XPOST 'localhost:9200/logstash-2016.09.12/_search?pretty' -d '
 {
-  "query": { "match": { "message": "nininini" } }
+  "query": { "match": { "log": "9_QqPRxzPZoHFWMSJsRrgpifaavGdgITTMQQhdSQQEQUrsOCkxKmoqQQgZAKOmniqm" } }
 }'
 
 
-curl -XPOST 'localhost:9200/logstash-2016.08.20/_search?pretty' -d '
+curl -XPOST 'localhost:9200/logstash-*/_search?pretty' -d '
 {
   "query": { "match_all": {} }
 }'
 
+
+curl -XPOST 'localhost:9200/logstash-2016.09.09/_search?pretty' -d '
+{
+  "query": { "match": {"kubernetes.namespace_name":"loggen"} }
+}'
+curl -XPOST 'localhost:9200/logstash-2016.09.08/_search?pretty' -d '
+{
+  "query": {
+    "match_all": {}
+  },
+  "sort": [
+    {
+      "_timestamp": {
+        "order": "desc"
+      }
+    }
+  ]
+}'
+
+curl -XPOST 'localhost:9200/logstash-2016.09.08/_search?pretty' -d '
+{
+  "query": {
+    "match": {"tag": "kubernetes.home.pao.test.l5000_t10s.log"}}
+  },
+  "sort": [
+    {
+      "_timestamp": {
+        "order": "desc"
+      }
+    }
+  ]
+}'
 
 curl 'localhost:9200/_cat/indices?v'
 curl 'elasticsearch-logging.kube-system:9200/_mapping?pretty'
@@ -78,7 +120,7 @@ curl -XPOST 'localhost:9200/logstash-2016.08.19/_search?pretty' -d '
   "query": { "match": { "tag": "file.synthetic-dates.log" } }
 }'
 
-curl -XPOST 'localhost:9200/logstash-2016.08.20/_search?pretty' -d '
+curl -XPOST 'localhost:9200/logstash-2016.09.09/_search?pretty' -d '
 {
   "query": { "match": { "log": "niurou" } }
 }'
@@ -93,34 +135,34 @@ curl -XPOST 'localhost:9200/logstash-2016.08.19/_search?pretty' -d '
   "query": { "match": { "message": "world" } }
 }'
 
-curl -XPOST 'elasticsearch-logging.kube-system:9200/logstash-2016.08.20/_search?pretty' -d '
+curl -XPOST 'elasticsearch-logging.kube-system:9200/logstash-2016.09.09/_search?pretty' -d '
 {
   "query": { "match": { "message": "ubuntu" } }
 }'
 
 
-curl -XPOST 'elasticsearch-logging.kube-system:9200/logstash-2016.08.20/_search?pretty' -d '
+curl -XPOST 'elasticsearch-logging.kube-system:9200/logstash-2016.09.09/_search?pretty' -d '
 {
   "query": { "prefix": { "container_name": "mongo" } }
 }'
 
 
-curl -XPOST 'elasticsearch-logging.kube-system:9200/logstash-2016.08.20/_search?pretty' -d '
+curl -XPOST 'elasticsearch-logging.kube-system:9200/logstash-2016.09.09/_search?pretty' -d '
 {
   "query": { "match": { "log": "redis" } }
 }'
 
-curl -XPOST 'elasticsearch-logging.kube-system:9200/logstash-2016.08.20/_search?pretty' -d '
+curl -XPOST 'elasticsearch-logging.kube-system:9200/logstash-2016.09.09/_search?pretty' -d '
 {
   "query": { "match": { "kubernetes.namespace_name": "p2" } }
 }'
 
-curl -XPOST 'elasticsearch-logging.kube-system:9200/logstash-2016.08.20/_search?pretty' -d '
+curl -XPOST 'elasticsearch-logging.kube-system:9200/logstash-2016.09.09/_search?pretty' -d '
 {
   "query": { "match": { "namespace_name": "p2" } }
 }'
 
-curl -XPOST 'elasticsearch-logging.kube-system:9200/logstash-2016.08.20/_search?pretty' -d '
+curl -XPOST 'elasticsearch-logging.kube-system:9200/logstash-2016.09.09/_search?pretty' -d '
 {
   "from": 0,
   "size": 200,
@@ -185,7 +227,7 @@ curl -XPOST 'elasticsearch-logging.kube-system:9200/logstash-2016.08.20/_search?
   }
 }'
 
-curl -XPOST 'elasticsearch-logging.kube-system:9200/logstash-2016.08.20/_search?pretty' -d '
+curl -XPOST 'elasticsearch-logging.kube-system:9200/logstash-2016.09.09/_search?pretty' -d '
 {
   "size": 0,
   "query": {
@@ -224,7 +266,7 @@ curl -XPOST 'elasticsearch-logging.kube-system:9200/logstash-2016.08.20/_search?
   }
 }'
 
-curl -XPOST 'elasticsearch-logging.kube-system:9200/logstash-2016.08.20/_search?pretty' -d '
+curl -XPOST 'elasticsearch-logging.kube-system:9200/logstash-2016.09.09/_search?pretty' -d '
 {
   "size": 0,
   "query": {
@@ -264,36 +306,52 @@ curl -XPOST 'elasticsearch-logging.kube-system:9200/logstash-2016.08.20/_search?
 }'
 
 
-curl -XPOST 'elasticsearch-logging.kube-system:9200/logstash-2016.08.20/_search?pretty' -d '
+curl -XPOST 'elasticsearch-logging.kube-system:9200/logstash-2016.09.09/_search?pretty' -d '
 {
   "query": { "match": {"message": "baidu" } }
 }'
 
-curl -XPOST 'elasticsearch-logging.kube-system:9200/logstash-2016.08.20/_search?pretty' -d '
+curl -XPOST 'elasticsearch-logging.kube-system:9200/logstash-2016.09.09/_search?pretty' -d '
 {
   "query": { "match": {"message": "woyou" } }
 }'
 
-curl -XPOST 'localhost:9200/logstash-2016.08.20/_search?pretty' -d '
+curl -XPOST 'localhost:9200/logstash-2016.09.09/_search?pretty' -d '
 {
   "query": { "match": {"message": "loveyou" } }
 }'
 
-curl -XPOST 'elasticsearch-logging.kube-system:9200/logstash-2016.08.20/_search?pretty' -d '
+curl -XPOST 'elasticsearch-logging.kube-system:9200/logstash-2016.09.09/_search?pretty' -d '
 {
   "query": { "match": { "kubernetes.namespace_name": "log2"} }
 }'
 
 
 
-curl -XPOST 'elasticsearch-logging.kube-system:9200/logstash-2016.08.20/_search?pretty' -d '
+curl -XPOST 'elasticsearch-logging.kube-system:9200/logstash-2016.09.09/_search?pretty' -d '
 {
   "query": { "match": { "kubernetes.namespace_name": "kube-system"} }
 }'
 
-curl -XPOST 'elasticsearch-logging.kube-system:9200/logstash-2016.08.20/_search?pretty' -d '
+curl -XPOST 'elasticsearch-logging.kube-system:9200/logstash-2016.09.09/_search?pretty' -d '
 {
   "query": { "match": {"kubernetes.namespace_name": "kube-system"} }
 }'
+curl -XDELETE 'localhost:9200/logstash-*/_query' -d '
+{
+  "query": { "match": { "kubernetes.namespace_name": "loggen"} }
+}'
+curl -XDELETE 'localhost:9200/logstash-*/_query' -d '
+{
+  "query": { "match": { "tag": "kubernetes.home.ubuntu.test.l5000_20s.log"} }
+}'
 
- curl -XDELETE 'http://elasticsearch-logging.kube-system:9200/logstash-2016.08.20/' 
+curl -XDELETE 'http://elasticsearch-logging.kube-system:9200/logstash-2016.09.08/'
+ curl -XDELETE 'http://localhost:9200/logstash-2016.09.10/'
+
+
+ curl -XPUT 'http://localhost:9200/twitter/tweet/1' -d '{
+     "user" : "kimchy",
+     "post_date" : "2009-11-15T14:12:12",
+     "message" : "trying out Elasticsearch"
+ }'

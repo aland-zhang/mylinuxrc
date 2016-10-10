@@ -1,0 +1,22 @@
+//(mysql.method: INSERT OR mysql.method: UPDATE) AND responsetime: [30 TO 50)
+  {
+    "filtered" : {
+
+      "filter" : {
+        "and":[
+          "or": [
+            { "mysql.method" : "INSERT" },
+            { "mysql.method" : "UPDATE" }
+          ],
+          "range": {
+            "responsetime": {
+              "gte":30,
+              "lt":50
+            }
+          }
+
+
+        ]
+      }
+    }
+  }
