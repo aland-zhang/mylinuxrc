@@ -1,0 +1,8 @@
+Monitoring using prometheus
+
+Prometheus is an open source monitoring and alerting toolkit made for monitoring applications in clusters. 
+
+Capable of monitoring a large scale of clusters
+HA
+Scalable
+High performance
