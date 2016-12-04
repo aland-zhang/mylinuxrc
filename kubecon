@@ -1,8 +1,1 @@
-Monitoring using prometheus
-
-Prometheus is an open source monitoring and alerting toolkit made for monitoring applications in clusters. 
-
-Capable of monitoring a large scale of clusters
-HA
-Scalable
-High performance
+Monitoring a large cotaniner cluster can mean monitoring potentially thousands of machines, on which dozens of containers are running. Prometheus is an open source solution for monitoring and alerting applications in clusters. It can be easily set up running with kubernetes. However, making it monitoring a large scale of cluster has a lot of work to do: the monitoring system has to be highly avaiable, scalable. We will show how to make a monitoring system based on promtheus, opentsdb and hadooop. It is highly avaiable, scalable. It supports self defined metrics and can be auto-scaling, self-monitoring. We will also discuss how to hack kubernetes code to make 
