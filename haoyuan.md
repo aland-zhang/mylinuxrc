@@ -1,0 +1,1 @@
+Haoyuan's background is in providing infrastructure solutions for the Paas in Caicloud. He is a contributor to Kubernetes and Harbor. Previously, he worked for Tuxedo team in Oracle and as a research assistant in Technion, Israel Institute of Technology.

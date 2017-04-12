@@ -49,6 +49,11 @@ curl -XPOST 'localhost:9200/logstash-*/_search?pretty' -d '
   "query": { "match_all": {} }
 }'
 
+  "query": { "match_all": {} }
+curl -XPOST 'elasticsearch-logging:9200/logstash-*/_search?pretty' -d '
+{
+  "query": { "match": {"kubernetes.namespace_name":"*"} }
+}'
 
 curl -XPOST 'localhost:9200/logstash-2016.09.09/_search?pretty' -d '
 {
@@ -227,7 +232,7 @@ curl -XPOST 'elasticsearch-logging.kube-system:9200/logstash-2016.09.09/_search?
   }
 }'
 
-curl -XPOST 'elasticsearch-logging.kube-system:9200/logstash-2016.09.09/_search?pretty' -d '
+curl -XPOST 'elasticsearch-logging.kube-system:9200/logstash-*/_search?pretty' -d '
 {
   "size": 0,
   "query": {
@@ -239,12 +244,12 @@ curl -XPOST 'elasticsearch-logging.kube-system:9200/logstash-2016.09.09/_search?
           "must": [
             {
               "wildcard": {
-                "kubernetes.namespace_name": "default"
+                "kubernetes.namespace_name": "micosvc"
               }
             },
             {
               "wildcard": {
-                "kubernetes.pod_name": "cluster-admin-8m13t"
+                "kubernetes.pod_name": "config-service-1412617049-1miqp"
               }
             }
           ]
