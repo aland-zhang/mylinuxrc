@@ -448,3 +448,157 @@ curl -XPUT 'localhost:9200/_template/logging' -d '
 }'
 
 curl -XPUT 'localhost:9200/logs-2015.10.01/event/3' -d @/home/pao/coding/mylinuxrc/payload.json
+
+
+curl -XPOST 'localhost:9200/logstash-*/_search?pretty' -d '
+{
+  "query": {
+    "bool": {
+      "should": [],
+      "must_not": [],
+      "must": [
+        {
+          "match": {
+            "kubernetes.namespace_name": "caas"
+          }
+        },
+        {
+          "match": {
+            "kubernetes.pod_name": "kubernetes-admin-2770990362-cp9bv"
+          }
+        },
+        {
+          "query_string": {
+            "query": "admin",
+            "analyze_wildcard": true
+          }
+        },
+        {
+          "range": {
+            "timestamp": {
+              "gte": "2017-05-18T18:00:00",
+              "lte": "2017-05-18T18:32:34"
+            }
+          }
+        }
+      ]
+    }
+  },
+          "sort": {
+            "@timestamp": {
+              "order": "desc"
+            }
+          },
+          "highlight": {
+            "pre_tags": [
+              "<logHighlight>"
+            ],
+            "post_tags": [
+              "</logHighlight>"
+            ],
+            "fields": {
+              "log": {}
+            }
+          }
+}'
+
+
+curl -XPOST 'localhost:9200/logstash-*/_search?pretty' -d '
+{
+  "query": {
+    "bool": {
+      "should": [],
+      "must_not": [],
+      "must": [
+        {
+          "match": {
+            "kubernetes.namespace_name": "caas"
+          }
+        },
+                  {
+            "query_string": {
+              "query": "cluster*",
+              "fields": [
+                "log"
+              ]
+            }
+          },
+        {
+          "match": {
+            "kubernetes.pod_name": "redis-logger-1655605986-l8qg3"
+          }
+        }
+      ]
+    }
+  },
+  "sort": {
+    "@timestamp": {
+      "order": "desc"
+    }
+  },
+  "highlight": {
+    "pre_tags": [
+      "<logHighlight>"
+    ],
+    "post_tags": [
+      "</logHighlight>"
+    ],
+    "fields": {
+      "log": {}
+    }
+  }
+}'
+
+curl -XPOST 'localhost:9200/logstash-*/_search?pretty' -d '
+{
+  "query": {
+      "bool": {
+        "should": [],
+        "must_not": [],
+        "must": [
+          {
+            "match": {
+              "kubernetes.namespace_name": "caas"
+            }
+          },
+          {
+            "match": {
+              "kubernetes.pod_name": "kubernetes-admin-2770990362-cp9bv"
+            }
+          },
+          {
+            "query_string": {
+              "query": "adm*",
+              "fields": [
+                "log"
+              ]
+            }
+          },
+          {
+            "range": {
+              "@timestamp": {
+                "gte": "2017-05-15",
+                "lte": "2017-05-25"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "sort": {
+      "@timestamp": {
+        "order": "desc"
+      }
+    },
+    "highlight": {
+      "pre_tags": [
+        "<logHighlight>"
+      ],
+      "post_tags": [
+        "</logHighlight>"
+      ],
+      "fields": {
+        "log": {}
+      }
+    }
+}'
