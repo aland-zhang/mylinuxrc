@@ -549,7 +549,7 @@ curl -XPOST 'localhost:9200/logstash-*/_search?pretty' -d '
   }
 }'
 
-curl -XPOST 'localhost:9200/logstash-*/_search?pretty' -d '
+curl -XPOST 'localhost:9200/logstash-*/_search?scroll=1m&pretty' -d '
 {
   "query": {
       "bool": {
@@ -599,6 +599,46 @@ curl -XPOST 'localhost:9200/logstash-*/_search?pretty' -d '
       ],
       "fields": {
         "log": {}
+      }
+    }
+}'
+
+curl -XPOST 'localhost:9200/logstash-*/_search?pretty' -d '
+{
+  "query": {
+      "bool": {
+        "should": [],
+        "must_not": [],
+        "must": [
+          {
+            "match": {
+              "kubernetes.namespace_name": "caas"
+            }
+          },
+          {
+            "match": {
+              "kubernetes.labels.kubernetes-admin_caicloud_io/release-chart": "caas-log-test-testlogger"
+            }
+          }
+        ]
+      }
+    }
+}'
+
+curl -XPOST 'localhost:9200/logstash-*/_search?pretty' -d '
+{
+  
+  "query": {
+      "bool": {
+        "should": [],
+        "must_not": [],
+        "must": [
+          {
+            "match": {
+              "kubernetes.namespace_name": "caas"
+            }
+          }
+        ]
       }
     }
 }'
