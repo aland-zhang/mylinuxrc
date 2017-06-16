@@ -691,6 +691,28 @@ curl -XPOST 'localhost:9200/logstash-*/_search?pretty' -d '
 
 curl -XPOST 'localhost:9200/logstash-*/_search?pretty' -d '
 {
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "match": {
+            "kubernetes.namespace_name": "default"
+          }
+        },
+        {
+          "match": {
+            "kubernetes.pod_name": "cauth-v0.0.5-2463911897-165m8"
+          }
+        }
+      ]
+    }
+  }
+}
+'
+
+
+curl -XPOST 'localhost:9200/logstash-*/_search?pretty' -d '
+{
   
   "query": {
       "bool": {
@@ -699,7 +721,12 @@ curl -XPOST 'localhost:9200/logstash-*/_search?pretty' -d '
         "must": [
           {
             "match": {
-              "kubernetes.namespace_name": "caas"
+              "kubernetes.namespace_name": "default"
+            }
+          },
+          {
+            "wildcard": {
+              "kubernetes.pod_name": "kubernetes-admin-*"
             }
           }
         ]
