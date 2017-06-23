@@ -26,12 +26,67 @@ curl -X POST 'localhost:9200/website/blog/' -d '
   "date":  "2014/01/02"
 }'
 
+curl -X POST 'localhost:9200/website/blog/' -d '
+{
+  "title": "My 5th blog entry",
+  "text":  "Fuck you off.",
+  "date":  "2014/01/03"
+}'
+
+curl -X POST 'localhost:9200/website/blog/' -d '
+{
+  "title": "My 6th blog entry",
+  "text":  "Fuck your mother.",
+  "date":  "2014/01/04"
+}'
 
 curl -XPOST 'localhost:9200/website/_search?pretty' -d '
 {
-  "query": { "match": { "text": "Fuck you." } }
+  "query": { "match": { "text": "Fuck" } }
 }'
 
+curl -XPOST 'localhost:9200/website/_search?pretty' -d '
+{
+  "query": {
+      "bool": {
+        "should": [],
+        "must_not": [],
+        "must": [
+          {
+            "match": {
+              "text": "Fuck"
+            }
+          }
+        ]
+      }
+    },
+    "sort": [{
+      "date": "asc"
+      }
+    ],
+    "search_after": [1388620800002 ]
+}'
+
+curl -XPOST 'localhost:9200/website/_search?pretty' -d '
+{
+  "query": {
+      "bool": {
+        "should": [],
+        "must_not": [],
+        "must": [
+          {
+            "match": {
+              "text": "Fuck"
+            }
+          }
+        ]
+      }
+    },
+    "sort": [{
+      "date": "asc"
+      }, {"text":"desc"}
+    ]
+}'
 
 curl -XPOST 'localhost:9200/website/_search?pretty' -d '
 {
@@ -216,31 +271,42 @@ curl -X POST 'localhost:9200/logstash-test/fluentd' -d '
 {"log":"time=\"2017-06-13T22:58:06+08:00\" level=info msg=\"[quota sum in user namespace] requests.cpu: 153200m, 153200, requests.memory: 235008Mi, 246423748608\\n\" \n","stream":"stderr","docker":{"container_id":"95e0c978f1549c740af75aab5e4afa625b38c6131b6f777cfb59fb23c2946e76"},"kubernetes":{"namespace_name":"default","pod_name":"kubernetes-admin-v1.0.5-1559733660-wzdrg","pod_id":"0d53c0d9-4fda-11e7-a072-52540092af07","labels":{"caicloud-app":"kubernetes-admin","pod-template-hash":"1559733660","version":"v1.0.5","caicloud_io/cluster-service":"true","kubernetes-admin_caicloud_io/application":"kubernetes-admin-v1.0.5","kubernetes-admin_caicloud_io/type":"application"},"host":"kube-node-73","container_name":"kubernetes-admin"},"tag":"kubernetes.var.log.containers.kubernetes-admin-v1.0.5-1559733660-wzdrg_default_kubernetes-admin-95e0c978f1549c740af75aab5e4afa625b38c6131b6f777cfb59fb23c2946e76.log","@timestamp":"2017-06-13T22:58:06+08:00"}]'
 '
 
-curl -X POST 'localhost:9200/logstash-test/fluentd' -d '
+curl -X POST 'localhost:9200/logstash-2017.06.12/fluentd' -d '
 {"log":"[k8s-admin]Started 10.100.7.43:57440 - admin [13/Jun/2017:22:58:06 +0800] GET /api/v0.2/partitions/clever?uid=1131094912&quota=true\n","stream":"stdout","docker":{"container_id":"95e0c978f1549c740af75aab5e4afa625b38c6131b6f777cfb59fb23c2946e76"},"kubernetes":{"namespace_name":"default","pod_name":"kubernetes-admin-v1.0.5-1559733660-wzdrg","pod_id":"0d53c0d9-4fda-11e7-a072-52540092af07","labels":{"caicloud-app":"kubernetes-admin","pod-template-hash":"1559733660","version":"v1.0.5","caicloud_io/cluster-service":"true","kubernetes-admin_caicloud_io/application":"kubernetes-admin-v1.0.5","kubernetes-admin_caicloud_io/type":"application"},"host":"kube-node-73","container_name":"kubernetes-admin"},"tag":"kubernetes.var.log.containers.kubernetes-admin-v1.0.5-1559733660-wzdrg_default_kubernetes-admin-95e0c978f1549c740af75aab5e4afa625b38c6131b6f777cfb59fb23c2946e76.log","@timestamp":"2017-06-13T22:58:06+08:00"}
 '
-curl -X POST 'localhost:9200/logstash-test/fluentd' -d '
+curl -X POST 'localhost:9200/logstash-2017.06.12/fluentd' -d '
 {"log":"time=\"2017-06-13T22:58:06+08:00\" level=error msg=\"ResourceQuota not found for partition default\" \n","stream":"stderr","docker":{"container_id":"95e0c978f1549c740af75aab5e4afa625b38c6131b6f777cfb59fb23c2946e76"},"kubernetes":{"namespace_name":"default","pod_name":"kubernetes-admin-v1.0.5-1559733660-wzdrg","pod_id":"0d53c0d9-4fda-11e7-a072-52540092af07","labels":{"caicloud-app":"kubernetes-admin","pod-template-hash":"1559733660","version":"v1.0.5","caicloud_io/cluster-service":"true","kubernetes-admin_caicloud_io/application":"kubernetes-admin-v1.0.5","kubernetes-admin_caicloud_io/type":"application"},"host":"kube-node-73","container_name":"kubernetes-admin"},"tag":"kubernetes.var.log.containers.kubernetes-admin-v1.0.5-1559733660-wzdrg_default_kubernetes-admin-95e0c978f1549c740af75aab5e4afa625b38c6131b6f777cfb59fb23c2946e76.log","@timestamp":"2017-06-13T22:58:06+08:00"}
 '
-curl -X POST 'localhost:9200/logstash-test/fluentd' -d '
+curl -X POST 'localhost:9200/logstash-2017.06.12/fluentd' -d '
 {"log":"time=\"2017-06-13T22:58:05+08:00\" level=info msg=\"[GetNamespaceListChannel] took 37.067149ms\" \n","stream":"stderr","docker":{"container_id":"95e0c978f1549c740af75aab5e4afa625b38c6131b6f777cfb59fb23c2946e76"},"kubernetes":{"namespace_name":"default","pod_name":"kubernetes-admin-v1.0.5-1559733660-wzdrg","pod_id":"0d53c0d9-4fda-11e7-a072-52540092af07","labels":{"caicloud-app":"kubernetes-admin","pod-template-hash":"1559733660","version":"v1.0.5","caicloud_io/cluster-service":"true","kubernetes-admin_caicloud_io/application":"kubernetes-admin-v1.0.5","kubernetes-admin_caicloud_io/type":"application"},"host":"kube-node-73","container_name":"kubernetes-admin"},"tag":"kubernetes.var.log.containers.kubernetes-admin-v1.0.5-1559733660-wzdrg_default_kubernetes-admin-95e0c978f1549c740af75aab5e4afa625b38c6131b6f777cfb59fb23c2946e76.log","@timestamp":"2017-06-13T22:58:05+08:00"}
 '
 
-curl -X POST 'localhost:9200/logstash-test/fluentd' -d '
+curl -X POST 'localhost:9200/logstash-2017.06.12/fluentd' -d '
 {"log":"time=\"2017-06-13T22:58:05+08:00\" level=info msg=\"[quota sum across the cluster] requests.cpu: 3060m, requests.memory: 2436Mi\\n\" \n","stream":"stderr","docker":{"container_id":"95e0c978f1549c740af75aab5e4afa625b38c6131b6f777cfb59fb23c2946e76"},"kubernetes":{"namespace_name":"default","pod_name":"kubernetes-admin-v1.0.5-1559733660-wzdrg","pod_id":"0d53c0d9-4fda-11e7-a072-52540092af07","labels":{"caicloud-app":"kubernetes-admin","pod-template-hash":"1559733660","version":"v1.0.5","caicloud_io/cluster-service":"true","kubernetes-admin_caicloud_io/application":"kubernetes-admin-v1.0.5","kubernetes-admin_caicloud_io/type":"application"},"host":"kube-node-73","container_name":"kubernetes-admin"},"tag":"kubernetes.var.log.containers.kubernetes-admin-v1.0.5-1559733660-wzdrg_default_kubernetes-admin-95e0c978f1549c740af75aab5e4afa625b38c6131b6f777cfb59fb23c2946e76.log","@timestamp":"2017-06-13T22:58:05+08:00"}
 '
 
-curl -X POST 'localhost:9200/logstash-test/fluentd' -d '
+curl -X POST 'localhost:9200/logstash-2017.06.12/fluentd' -d '
 {"log":"[k8s-admin]Started 10.100.7.43:57432 - admin [13/Jun/2017:22:58:06 +0800] GET /api/v0.2/partitions/caas?uid=1131094912&quota=true\n","stream":"stdout","docker":{"container_id":"95e0c978f1549c740af75aab5e4afa625b38c6131b6f777cfb59fb23c2946e76"},"kubernetes":{"namespace_name":"default","pod_name":"kubernetes-admin-v1.0.5-1559733660-wzdrg","pod_id":"0d53c0d9-4fda-11e7-a072-52540092af07","labels":{"caicloud-app":"kubernetes-admin","pod-template-hash":"1559733660","version":"v1.0.5","caicloud_io/cluster-service":"true","kubernetes-admin_caicloud_io/application":"kubernetes-admin-v1.0.5","kubernetes-admin_caicloud_io/type":"application"},"host":"kube-node-73","container_name":"kubernetes-admin"},"tag":"kubernetes.var.log.containers.kubernetes-admin-v1.0.5-1559733660-wzdrg_default_kubernetes-admin-95e0c978f1549c740af75aab5e4afa625b38c6131b6f777cfb59fb23c2946e76.log","@timestamp":"2017-06-13T22:58:06+08:00"}
 '
-curl -X POST 'localhost:9200/logstash-test/fluentd' -d '
+curl -X POST 'localhost:9200/logstash-2017.06.12/fluentd' -d '
 {"log":"[k8s-admin]10.100.7.43:57436 - admin [13/Jun/2017:22:58:06 +0800] \"GET /api/v0.2/partitions/caicloud?uid=1131094912&quota=true HTTP/1.1\" 200 906 54.515221ms\n","stream":"stdout","docker":{"container_id":"95e0c978f1549c740af75aab5e4afa625b38c6131b6f777cfb59fb23c2946e76"},"kubernetes":{"namespace_name":"default","pod_name":"kubernetes-admin-v1.0.5-1559733660-wzdrg","pod_id":"0d53c0d9-4fda-11e7-a072-52540092af07","labels":{"caicloud-app":"kubernetes-admin","pod-template-hash":"1559733660","version":"v1.0.5","caicloud_io/cluster-service":"true","kubernetes-admin_caicloud_io/application":"kubernetes-admin-v1.0.5","kubernetes-admin_caicloud_io/type":"application"},"host":"kube-node-73","container_name":"kubernetes-admin"},"tag":"kubernetes.var.log.containers.kubernetes-admin-v1.0.5-1559733660-wzdrg_default_kubernetes-admin-95e0c978f1549c740af75aab5e4afa625b38c6131b6f777cfb59fb23c2946e76.log","@timestamp":"2017-06-13T22:58:06+08:00"}
 '
 
-curl -X POST 'localhost:9200/logstash-test/fluentd' -d '
+curl -X POST 'localhost:9200/logstash-2017.06.12/fluentd' -d '
 {"log":"[k8s-admin]10.100.7.43:57422 - admin [13/Jun/2017:22:58:05 +0800] \"GET /api/v0.2/clusterQuota?uid=1131094912 HTTP/1.1\" 200 279 281.112778ms\n","stream":"stdout","docker":{"container_id":"95e0c978f1549c740af75aab5e4afa625b38c6131b6f777cfb59fb23c2946e76"},"kubernetes":{"namespace_name":"default","pod_name":"kubernetes-admin-v1.0.5-1559733660-wzdrg","pod_id":"0d53c0d9-4fda-11e7-a072-52540092af07","labels":{"caicloud-app":"kubernetes-admin","pod-template-hash":"1559733660","version":"v1.0.5","caicloud_io/cluster-service":"true","kubernetes-admin_caicloud_io/application":"kubernetes-admin-v1.0.5","kubernetes-admin_caicloud_io/type":"application"},"host":"kube-node-73","container_name":"kubernetes-admin"},"tag":"kubernetes.var.log.containers.kubernetes-admin-v1.0.5-1559733660-wzdrg_default_kubernetes-admin-95e0c978f1549c740af75aab5e4afa625b38c6131b6f777cfb59fb23c2946e76.log","@timestamp":"2017-06-13T22:58:05+08:00"}
 '
 
-curl -X POST 'localhost:9200/logstash-test/fluentd' -d '
+curl -X POST 'localhost:9200/logstash-2017.06.12/fluentd' -d '
 {"log":"time=\"2017-06-13T22:58:06+08:00\" level=info msg=\"cpu capacity: 342, mem capacity: 672059160Ki, cpu quota(limits): 684, mem quota(limits): 672059160Ki\" \n","stream":"stderr","docker":{"container_id":"95e0c978f1549c740af75aab5e4afa625b38c6131b6f777cfb59fb23c2946e76"},"kubernetes":{"namespace_name":"default","pod_name":"kubernetes-admin-v1.0.5-1559733660-wzdrg","pod_id":"0d53c0d9-4fda-11e7-a072-52540092af07","labels":{"caicloud-app":"kubernetes-admin","pod-template-hash":"1559733660","version":"v1.0.5","caicloud_io/cluster-service":"true","kubernetes-admin_caicloud_io/application":"kubernetes-admin-v1.0.5","kubernetes-admin_caicloud_io/type":"application"},"host":"kube-node-73","container_name":"kubernetes-admin"},"tag":"kubernetes.var.log.containers.kubernetes-admin-v1.0.5-1559733660-wzdrg_default_kubernetes-admin-95e0c978f1549c740af75aab5e4afa625b38c6131b6f777cfb59fb23c2946e76.log","@timestamp":"2017-06-13T22:58:06+08:00"}
+'
+
+
+curl -X POST 'localhost:9200/logstash-2017.06.12/fluentd' -d '
+  {
+    "log":"time=\"2017-06-13T22:58:06+08:00\" level=info msg=\"cpu capacity: 342, mem capacity: 672059160Ki, cpu quota(limits): 684, mem quota(limits): 672059160Ki\" \n",
+    "stream":"stderr",
+    "docker":{"container_id":"95e0c978f1549c740af75aab5e4afa625b38c6131b6f777cfb59fb23c2946e76"},
+    "kubernetes":{"namespace_name":"default","pod_name":"kubernetes-fuckyou-afds","pod_id":"0d53c0d9-4fda-11e7-a072-52540092af07","labels":{"caicloud-app":"kubernetes-admin","pod-template-hash":"1559733660","version":"v1.0.5","caicloud_io/cluster-service":"true","kubernetes-admin_caicloud_io/application":"kubernetes-admin-v1.0.5","kubernetes-admin_caicloud_io/type":"application"},"host":"kube-node-73","container_name":"kubernetes-admin"},
+    "tag":"kubernetes.var.log.containers.kubernetes-admin-v1.0.5-1559733660-wzdrg_default_kubernetes-admin-95e0c978f1549c740af75aab5e4afa625b38c6131b6f777cfb59fb23c2946e76.log","@timestamp":"2017-06-13T22:58:06+08:00"
+  }
 '

@@ -613,7 +613,7 @@ curl -XPOST 'localhost:9200/logstash-*/_search?pretty' -d '
   }
 }'
 
-curl -XPOST 'localhost:9200/logstash-*/_search?scroll=1m&pretty' -d '
+curl -XPOST 'localhost:9200/logstash-*/_search?pretty' -d '
 {
   "query": {
       "bool": {
@@ -622,49 +622,29 @@ curl -XPOST 'localhost:9200/logstash-*/_search?scroll=1m&pretty' -d '
         "must": [
           {
             "match": {
-              "kubernetes.namespace_name": "caas"
+              "kubernetes.namespace_name": "default"
             }
           },
           {
             "match": {
-              "kubernetes.pod_name": "kubernetes-admin-2770990362-cp9bv"
-            }
-          },
-          {
-            "query_string": {
-              "query": "adm*",
-              "fields": [
-                "log"
-              ]
+              "kubernetes.pod_name": "zk-1-1863230234-drw69"
             }
           },
           {
             "range": {
               "@timestamp": {
-                "gte": "2017-05-15",
-                "lte": "2017-05-25"
+                "gte": "2016-06-22T10:00:00+08:00",
+                "lte": "2017-06-23T10:03:00+08:00"
               }
             }
           }
         ]
       }
     },
-    "sort": {
-      "@timestamp": {
-        "order": "desc"
+    "sort": [{
+      "@timestamp": "asc"
       }
-    },
-    "highlight": {
-      "pre_tags": [
-        "<logHighlight>"
-      ],
-      "post_tags": [
-        "</logHighlight>"
-      ],
-      "fields": {
-        "log": {}
-      }
-    }
+    ]
 }'
 
 curl -XPOST 'localhost:9200/logstash-*/_search?pretty' -d '
@@ -732,4 +712,15 @@ curl -XPOST 'localhost:9200/logstash-*/_search?pretty' -d '
         ]
       }
     }
+}'
+
+
+
+curl -XPOST 'localhost:9200/logstash-*/_search?pretty' -d '
+{ "query": 
+  {"bool":
+    {
+      "must":[{"match":{"kubernetes.namespace_name": "default"}},{"wildcard":{"kubernetes.pod_name": "kubernetes-admin*"}}]
+    }
+  }
 }'
